@@ -8,11 +8,12 @@ import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
 
 const Article = ({ article, categories }) => {
-  const imageUrl = getStrapiMedia(article.attributes.cover);
+  const imageUrl = getStrapiMedia(article.attributes.image, "medium");
+  const smallImageUrl = getStrapiMedia(article.attributes.image);
   const seo = {
     metaTitle: article.attributes.title,
     metaDescription: article.attributes.description,
-    shareImage: article.attributes.cover,
+    shareImage: article.attributes.image,
     article: true,
   };
 
@@ -22,9 +23,9 @@ const Article = ({ article, categories }) => {
       <div
         id='banner'
         className='uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin'
-        data-src={imageUrl}
+        data-src={smallImageUrl}
         data-srcset={imageUrl}
-        data-uk-img>
+        data-uk-img='loading:eager'>
         <h1>{article.attributes.title}</h1>
       </div>
       <div className='uk-section'>
@@ -33,14 +34,15 @@ const Article = ({ article, categories }) => {
           <hr className='uk-divider-small' />
           <div className='uk-grid-small uk-flex-left' data-uk-grid='true'>
             <div>
-              {article.attributes.author.data.attributes.avatar && (
+              {article.attributes.author.data.attributes.picture && (
                 <img
                   src={getStrapiMedia(
-                    article.attributes.author.data.attributes.avatar
+                    article.attributes.author.data.attributes.picture,
+                    "thumbnail"
                   )}
                   alt={
-                    article.attributes.author.data.attributes.avatar.data
-                      .attributes.alternativeText
+                    article.attributes.author.data.attributes.picture.data.attributes
+                      .alternativeText
                   }
                   style={{
                     position: "static",
@@ -55,9 +57,7 @@ const Article = ({ article, categories }) => {
                 By {article.attributes.author.data.attributes.name}
               </p>
               <p className='uk-text-meta uk-margin-remove-top'>
-                <Moment format='dddd, DD MMM YYYY'>
-                  {article.attributes.published_at}
-                </Moment>
+                <Moment format='dddd, DD MMM YYYY'>{article.attributes.published_at}</Moment>
               </p>
             </div>
           </div>
@@ -85,18 +85,16 @@ export async function getStaticProps({ params }) {
     filters: {
       slug: params.slug,
     },
-    fields: ["title", "slug", "description"],
+    fields: ["title", "slug", "description, content"],
     populate: {
       author: {
-        populate: ["avatar"],
+        populate: ["picture"],
       },
-      cover: { populate: "*" },
-      category: { populate: "*" },
-      blocks: { populate: "*" },
+      image: { populate: "format" },
+      category: "*",
     },
     publicationState: "live",
   });
-  console.log("articlesRes: ", articlesRes);
 
   const categoriesRes = await fetchAPI("/categories");
 

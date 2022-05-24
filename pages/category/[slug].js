@@ -47,7 +47,6 @@ export async function getStaticProps({ params }) {
     },
   });
 
-  console.log("macth: ", matchingCategories);
   const allCategories = await fetchAPI("/categories");
   return {
     props: {
