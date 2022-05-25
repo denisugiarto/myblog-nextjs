@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "./image";
+import Images from "./images";
 
 const Card = ({ article }) => {
   return (
@@ -8,9 +8,7 @@ const Card = ({ article }) => {
       <a className='uk-link-reset'>
         <div className='uk-card uk-card-muted'>
           <div className='uk-card-media-top'>
-            {article.attributes.image.data && (
-              <Image image={article.attributes.image} size='medium' />
-            )}
+            {article.attributes.image.data && <Images image={article.attributes.image} />}
           </div>
           <div className='uk-card-body'>
             <p id='category' className='uk-text-uppercase'>

@@ -6,10 +6,10 @@ import Layout from "../../components/layout";
 
 import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
+import Images from "../../components/images";
 
 const Article = ({ article, categories }) => {
   const imageUrl = getStrapiMedia(article.attributes.image, "medium");
-  const smallImageUrl = getStrapiMedia(article.attributes.image);
   const seo = {
     metaTitle: article.attributes.title,
     metaDescription: article.attributes.description,
@@ -23,34 +23,23 @@ const Article = ({ article, categories }) => {
       <div
         id='banner'
         className='uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-light uk-padding uk-margin'
-        data-src={smallImageUrl}
-        data-srcset={imageUrl}
+        data-src={imageUrl}
         data-uk-img='loading:eager'>
         <h1>{article.attributes.title}</h1>
       </div>
       <div className='uk-section'>
         <div className='uk-container uk-container-small'>
-          <ReactMarkdown children={article.attributes.content} />
+          <ReactMarkdown>{article.attributes.content}</ReactMarkdown>
           <hr className='uk-divider-small' />
           <div className='uk-grid-small uk-flex-left' data-uk-grid='true'>
             <div>
-              {article.attributes.author.data.attributes.picture && (
-                <img
-                  src={getStrapiMedia(
-                    article.attributes.author.data.attributes.picture,
-                    "thumbnail"
-                  )}
-                  alt={
-                    article.attributes.author.data.attributes.picture.data.attributes
-                      .alternativeText
-                  }
-                  style={{
-                    position: "static",
-                    borderRadius: "20%",
-                    height: 60,
-                  }}
+              {article.attributes.author.data.attributes.picture.data && (
+                <Images
+                  image={article.attributes.author.data.attributes.picture}
+                  size='thumbnail'
                 />
               )}
+              {/* <Images image={article.attributes.author.data.attributes.picture} size='thumbnail' /> */}
             </div>
             <div className='uk-width-expand'>
               <p className='uk-margin-remove-bottom'>
