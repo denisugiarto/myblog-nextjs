@@ -8,7 +8,9 @@ const Card = ({ article }) => {
       <a className='uk-link-reset'>
         <div className='uk-card uk-card-muted'>
           <div className='uk-card-media-top'>
-            {article.attributes.image.data && <Images image={article.attributes.image} />}
+            {article.attributes.image.data && (
+              <Images image={article.attributes.image} size='medium' />
+            )}
           </div>
           <div className='uk-card-body'>
             <p id='category' className='uk-text-uppercase'>

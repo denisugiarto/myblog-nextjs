@@ -39,7 +39,6 @@ const Article = ({ article, categories }) => {
                   size='thumbnail'
                 />
               )}
-              {/* <Images image={article.attributes.author.data.attributes.picture} size='thumbnail' /> */}
             </div>
             <div className='uk-width-expand'>
               <p className='uk-margin-remove-bottom'>
